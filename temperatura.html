@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Temperatura em Aracaju</title>
+</head>
+<body>
+  <h2>Temperatura atual em Aracaju:</h2>
+  <p id="temperatura">Carregando...</p>
+
+  <script>
+    const apiKey = 'SUA_CHAVE_API'; // Substitua por sua chave da OpenWeatherMap
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=Aracaju,BR&appid=${apiKey}&units=metric&lang=pt_br`;
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error('Erro ao acessar a API');
+        return response.json();
+      })
+      .then(data => {
+        const temp = data.main.temp;
+        const descricao = data.weather[0].description;
+        document.getElementById('temperatura').textContent =
+          `${temp}°C - ${descricao.charAt(0).toUpperCase() + descricao.slice(1)}`;
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById('temperatura').textContent = 'Não foi possível obter a temperatura.';
+      });
+  </script>
+</body>
+</html>
